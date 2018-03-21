@@ -1,0 +1,10 @@
+- !policy
+  id: test-app
+  owner: !group /devops
+  body:
+  - !layer
+
+  - !grant
+    role: !layer
+    members:
+    - !host /conjur/openshift-12345/apps/test-app

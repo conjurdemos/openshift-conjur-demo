@@ -1,0 +1,35 @@
+---
+# initializes users
+# ted - openshift admin
+# bob - devops admin
+# alice - db admin
+# carol - developer
+
+- !group openshift_admin
+- !group devops
+- !group ops
+- !group db_admin
+
+# openshift_ and devops admin groups are members of the ops admin group
+- !grant
+  role: !group ops
+  members:
+  - !group openshift_admin
+  - !group devops
+
+- !user ted
+- !grant
+  role: !group openshift_admin
+  member: !user ted
+
+- !user bob
+- !grant
+  role: !group devops 
+  member: !user bob
+
+- !user alice
+- !grant
+  role: !group db_admin
+  member: !user alice
+
+- !user carol

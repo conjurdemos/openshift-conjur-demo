@@ -1,0 +1,14 @@
+#!/bin/bash
+set -eou pipefail
+
+export DOCKER_REGISTRY_PATH=docker-registry-default.apps.openshift33.itci.conjur.net
+export CONJUR_ACCOUNT=awesome-org
+export CONJUR_ADMIN_PASSWORD=very-secure-password
+
+./0_check_dependencies.sh
+./1_deploy_conjur.sh
+./2_initialize_conjur.sh
+./3_load_conjur_policies.sh
+./4_create_test_app_project.sh
+./5_store_conjur_cert.sh
+./6_store_conjur_api_key.sh

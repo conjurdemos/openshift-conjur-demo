@@ -1,0 +1,38 @@
+---
+apiVersion: v1
+kind: DeploymentConfig
+metadata:
+  labels:
+    app: test-app
+  name: test-app
+spec:
+  replicas: 3
+  selector:
+    app: test-app
+  template:
+    metadata:
+      labels:
+        app: test-app
+    spec:
+      containers:
+      - name: test-app
+        image: {{ DOCKER_IMAGE }}
+        command: [ ./test_app.rb ]
+        env:
+        - name: CONJUR_APPLIANCE_URL
+          value: https://conjur-follower.conjur.svc.cluster.local/api
+        - name: CONJUR_ACCOUNT
+          value: dev
+        - name: CONJUR_SSL_CERTIFICATE
+          valueFrom:
+            configMapKeyRef:
+              name: test-app
+              key: ssl-certificate
+        - name: CONJUR_AUTHN_LOGIN
+          value: host/conjur/openshift-12345/apps/test-app
+        - name: CONJUR_AUTHN_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: conjur-test-app-api-key
+              key: api-key
+
