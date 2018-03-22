@@ -17,5 +17,6 @@ oc delete --ignore-not-found deploymentconfigs test-app
 docker_image=$DOCKER_REGISTRY_PATH/$TEST_APP_PROJECT_NAME/test-app:$CONJUR_DEPLOY_TAG
 sed -e "s#{{ DOCKER_IMAGE }}#$docker_image#g" ./test_app/test_app.yaml |
   sed -e "s#{{ CONJUR_ACCOUNT }}#$CONJUR_ACCOUNT#g" |
-  sed -e "s#{{ CONFIG_MAP_NAME }}#$TEST_APP_PROJECT_NAME#g" #|
+  sed -e "s#{{ CONJUR_PROJECT_NAME }}#$CONJUR_PROJECT_NAME#g" |
+  sed -e "s#{{ CONFIG_MAP_NAME }}#$TEST_APP_PROJECT_NAME#g" |
   oc create -f -

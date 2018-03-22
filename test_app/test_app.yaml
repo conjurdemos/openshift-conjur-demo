@@ -20,7 +20,7 @@ spec:
         command: [ ./test_app.rb ]
         env:
         - name: CONJUR_APPLIANCE_URL
-          value: https://conjur-follower.conjur.svc.cluster.local/api
+          value: https://conjur-follower.{{ CONJUR_PROJECT_NAME }}.svc.cluster.local/api
         - name: CONJUR_ACCOUNT
           value: {{ CONJUR_ACCOUNT }}
         - name: CONJUR_SSL_CERTIFICATE
