@@ -1,6 +1,8 @@
 #!/bin/bash 
 set -eou pipefail
 
+. ./openshift-conjur-deploy/utils.sh
+
 if has_project "$TEST_APP_PROJECT_NAME"; then
   echo "Project '$TEST_APP_PROJECT_NAME' exists, not going to create it."
 else

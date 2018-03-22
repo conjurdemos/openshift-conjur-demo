@@ -6,7 +6,7 @@ metadata:
     app: test-app
   name: test-app
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     app: test-app
   template:
@@ -15,24 +15,44 @@ spec:
         app: test-app
     spec:
       containers:
-      - name: test-app
-        image: {{ DOCKER_IMAGE }}
-        command: [ ./test_app.rb ]
+      - image: {{ TEST_APP_DOCKER_IMAGE }}
+        name: inventory
         env:
-        - name: CONJUR_APPLIANCE_URL
-          value: https://conjur-follower.{{ CONJUR_PROJECT_NAME }}.svc.cluster.local/api
-        - name: CONJUR_ACCOUNT
-          value: {{ CONJUR_ACCOUNT }}
-        - name: CONJUR_SSL_CERTIFICATE
-          valueFrom:
-            configMapKeyRef:
-              name: {{ CONFIG_MAP_NAME }}
-              key: ssl-certificate
-        - name: CONJUR_AUTHN_LOGIN
-          value: host/conjur/openshift-12345/apps/test-app
-        - name: CONJUR_AUTHN_API_KEY
-          valueFrom:
-            secretKeyRef:
-              name: conjur-test-app-api-key
-              key: api-key
-
+          - name: CONJUR_APPLIANCE_URL
+            value: https://conjur-follower.{{ CONJUR_PROJECT_NAME }}.svc.cluster.local/api
+          - name: CONJUR_ACCOUNT
+            value: {{ CONJUR_ACCOUNT }}
+          - name: CONJUR_SSL_CERTIFICATE
+            valueFrom:
+              configMapKeyRef:
+                name: {{ CONFIG_MAP_NAME }}
+                key: ssl-certificate
+        volumeMounts:
+          - mountPath: /run/conjur
+            name: conjur-access-token
+            readOnly: true
+      - image: {{ SIDECAR_DOCKER_IMAGE }}
+        name: authenticator
+        env:
+          - name: CONJUR_APPLIANCE_URL
+            value: https://conjur-follower.{{ CONJUR_PROJECT_NAME }}.svc.cluster.local/api
+          - name: CONJUR_AUTHN_URL
+            value: https://conjur-follower.{{ CONJUR_PROJECT_NAME }}.svc.cluster.local/api/authn-k8s/openshift-test
+          - name: CONJUR_ACCOUNT
+            value: {{ CONJUR_ACCOUNT }}
+          - name: CONJUR_AUTHN_LOGIN
+            value: host/conjur/openshift-12345/apps/test-app
+          - name: CONJUR_SSL_CERTIFICATE
+            valueFrom:
+              configMapKeyRef:
+                name: {{ CONFIG_MAP_NAME }}
+                key: ssl-certificate
+        volumeMounts:
+          - mountPath: /run/conjur
+            name: conjur-access-token
+#          - mountPath: /src/inventory
+#            name: local-dev
+      volumes:
+        - name: conjur-access-token
+          emptyDir:
+            medium: Memory
