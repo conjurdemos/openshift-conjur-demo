@@ -22,11 +22,11 @@ spec:
         - name: CONJUR_APPLIANCE_URL
           value: https://conjur-follower.conjur.svc.cluster.local/api
         - name: CONJUR_ACCOUNT
-          value: dev
+          value: {{ CONJUR_ACCOUNT }}
         - name: CONJUR_SSL_CERTIFICATE
           valueFrom:
             configMapKeyRef:
-              name: test-app
+              name: {{ CONFIG_MAP_NAME }}
               key: ssl-certificate
         - name: CONJUR_AUTHN_LOGIN
           value: host/conjur/openshift-12345/apps/test-app

@@ -1,8 +1,8 @@
 #!/bin/bash
 set -eou pipefail
 
-. ./openshift-conjur-deploy/config.sh
 . ./openshift-conjur-deploy/utils.sh
+. ./utils.sh
 
 conjur_master=$(get_master_pod_name)
 

@@ -1,20 +1,19 @@
 #!/bin/bash 
 set -eou pipefail
 
-. ./config.sh
-. ./openshift-conjur-deploy/utils.sh
+. ./utils.sh
 
 oc project default
 
-if has_project $APP_PROJECT; then
-  oc delete project $APP_PROJECT
+if has_project $TEST_APP_PROJECT_NAME; then
+  oc delete project $TEST_APP_PROJECT_NAME
 
-  printf "Waiting for $APP_PROJECT project deletion to complete"
+  printf "Waiting for $TEST_APP_PROJECT_NAME project deletion to complete"
 
   while : ; do
     printf "..."
     
-    if has_project "$APP_PROJECT"; then
+    if has_project "$TEST_APP_PROJECT_NAME"; then
       sleep 5
     else
       break
@@ -26,8 +25,10 @@ fi
 
 echo "Test app environment purged."
 
-pushd openshift-conjur-deploy
-  ./stop
-popd
+if [ -d openshift-conjur-deploy ]; then
+  pushd openshift-conjur-deploy
+    ./stop
+  popd
 
-rm -rf ./openshift-conjur-deploy
+  rm -rf ./openshift-conjur-deploy
+fi
