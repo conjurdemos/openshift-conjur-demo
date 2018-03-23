@@ -15,7 +15,9 @@ oc secrets add serviceaccount/default secrets/dockerpullsecret --for=pull
 oc delete --ignore-not-found deploymentconfigs test-app
 
 test_app_docker_image=$DOCKER_REGISTRY_PATH/$TEST_APP_PROJECT_NAME/test-app:$CONJUR_DEPLOY_TAG
-sidecar_docker_image=$DOCKER_REGISTRY_PATH/$TEST_APP_PROJECT_NAME/cyberark/conjur-openshift-authenticator:$CONJUR_DEPLOY_TAG
+sidecar_docker_image=$DOCKER_REGISTRY_PATH/$TEST_APP_PROJECT_NAME/conjur-openshift-authenticator:$CONJUR_DEPLOY_TAG
+
+echo $sidecar_docker_image
 
 sed -e "s#{{ TEST_APP_DOCKER_IMAGE }}#$test_app_docker_image#g" ./test_app/test_app.yaml |
   sed -e "s#{{ SIDECAR_DOCKER_IMAGE }}#$sidecar_docker_image#g" |

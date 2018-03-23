@@ -15,22 +15,22 @@ spec:
         app: test-app
     spec:
       containers:
-      - image: {{ TEST_APP_DOCKER_IMAGE }}
-        name: inventory
-        env:
-          - name: CONJUR_APPLIANCE_URL
-            value: https://conjur-follower.{{ CONJUR_PROJECT_NAME }}.svc.cluster.local/api
-          - name: CONJUR_ACCOUNT
-            value: {{ CONJUR_ACCOUNT }}
-          - name: CONJUR_SSL_CERTIFICATE
-            valueFrom:
-              configMapKeyRef:
-                name: {{ CONFIG_MAP_NAME }}
-                key: ssl-certificate
-        volumeMounts:
-          - mountPath: /run/conjur
-            name: conjur-access-token
-            readOnly: true
+#      - image: {{ TEST_APP_DOCKER_IMAGE }}
+#        name: test-app
+#        env:
+#          - name: CONJUR_APPLIANCE_URL
+#            value: https://conjur-follower.{{ CONJUR_PROJECT_NAME }}.svc.cluster.local/api
+#          - name: CONJUR_ACCOUNT
+#            value: {{ CONJUR_ACCOUNT }}
+#          - name: CONJUR_SSL_CERTIFICATE
+#            valueFrom:
+#              configMapKeyRef:
+#                name: {{ CONFIG_MAP_NAME }}
+#                key: ssl-certificate
+#        volumeMounts:
+#          - mountPath: /run/conjur
+#            name: conjur-access-token
+#            readOnly: true
       - image: {{ SIDECAR_DOCKER_IMAGE }}
         name: authenticator
         env:
@@ -41,7 +41,7 @@ spec:
           - name: CONJUR_ACCOUNT
             value: {{ CONJUR_ACCOUNT }}
           - name: CONJUR_AUTHN_LOGIN
-            value: host/conjur/openshift-12345/apps/test-app
+            value: conjur/authn-k8s/openshift-test/apps/test-app
           - name: CONJUR_SSL_CERTIFICATE
             valueFrom:
               configMapKeyRef:
@@ -50,8 +50,8 @@ spec:
         volumeMounts:
           - mountPath: /run/conjur
             name: conjur-access-token
-#          - mountPath: /src/inventory
-#            name: local-dev
+##          - mountPath: /src/test-app
+##            name: local-dev
       volumes:
         - name: conjur-access-token
           emptyDir:

@@ -1,12 +1,10 @@
-FROM ubuntu:16.04
+FROM ruby:2.3
 
-RUN apt-get update && apt-get install -y curl
+RUN gem install -N activesupport --version 4.2.7.1
+RUN gem install -N conjur-api:"< 5.0" conjur-cli:"< 6.0" sinatra
 
-RUN curl -o conjur.deb -L https://github.com/conjurinc/cli-ruby/releases/download/v5.4.0/conjur_5.4.0-1_amd64.deb \
-  && dpkg -i conjur.deb \
-  && rm conjur.deb
+COPY test_app.rb usr/src/test_app.rb
 
-WORKDIR /
+env PORT 80
 
-COPY secrets.yml .
-COPY test_app.rb .
+CMD [ "ruby", "/usr/src/test_app.rb" ]

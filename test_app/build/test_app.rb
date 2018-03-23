@@ -1,28 +1,36 @@
-#!/opt/conjur/embedded/bin/ruby
+#!/usr/bin/env ruby
 
+require 'sinatra'
 require 'conjur-api'
-require 'restclient'
+require 'cgi'
 require 'json'
 
-Conjur.configuration.apply_cert_config!
-Conjur.configuration.appliance_url = ENV['CONJUR_APPLIANCE_URL']
-Conjur.configuration.account = ENV['CONJUR_ACCOUNT']
+enable :logging
 
-def retrieve_secret variable_id
-  @api = Conjur::API.new_from_key ENV['CONJUR_AUTHN_LOGIN'], ENV['CONJUR_AUTHN_API_KEY']
-  @api.variable(variable_id).value
+helpers do
+  def username
+    raise "Expecting CONJUR_AUTHN_API_KEY to be blank" if ENV['CONJUR_AUTHN_API_KEY']
+    ENV['CONJUR_AUTHN_LOGIN'] or raise "No CONJUR_AUTHN_LOGIN"
+  end
+  
+  def conjur_api
+    # Ideally this would be done only once.
+    # But for testing, it means that if the login fails, the pod is stuck in a bad state
+    # and the tests can't be performed.
+    Conjur.configuration.apply_cert_config!
+    
+    token = JSON.parse(File.read("/run/conjur/access-token"))
+    Conjur::API.new_from_token(token)
+  end
 end
 
-variable_id = "db/password"
-
-while true
+get '/' do
   begin
-    password = retrieve_secret(variable_id)
-    puts "Database password : #{password}"
-    $stdout.flush
-  rescue RestClient::ResourceNotFound
-    puts $!
-    $stderr.puts "Value for #{variable_id.inspect} was not found. Is the variable created, and is the secret value added?"
+    password = conjur_api.variable("inventory-db/password").value
+    "inventory-db password: #{password}"
+  rescue
+    $stderr.puts $!
+    $stderr.puts $!.backtrace.join("\n")
+    halt 500, "Error: #{$!}"
   end
-  sleep 5
 end
