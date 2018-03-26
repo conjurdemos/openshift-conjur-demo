@@ -12,3 +12,5 @@ oc exec $conjur_master -- bash -c 'yes yes | conjur init -h localhost'
 oc exec $conjur_master -- conjur authn login -u admin -p $CONJUR_ADMIN_PASSWORD
 oc exec $conjur_master -- conjur bootstrap
 oc exec $conjur_master -- conjur authn logout
+
+oc exec $conjur_master -- conjur-plugin-service authn-k8s rake ca:initialize["conjur/authn-k8s/openshift-test"]

@@ -34,20 +34,20 @@
   - !policy
     id: apps
     annotations:
-      description: Apps and services in the "minikube" Kubernetes cluster.
+      description: Apps and services in the OpenShift cluster.
     body:
     - !layer
 
     - &hosts
       - !host
-        id: {{ TEST_APP_PROJECT_NAME }}
+        id: {{ TEST_APP_PROJECT_NAME }}/*/*
         annotations:
-          kubernetes/authentication-container-name: test-app
+          kubernetes/authentication-container-name: authenticator
 
     - !grant
       role: !layer /test-app
       members:
-      - !host {{ TEST_APP_PROJECT_NAME }}
+      - !host {{ TEST_APP_PROJECT_NAME }}/*/*
 
     - !grant
       role: !layer      

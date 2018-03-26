@@ -26,8 +26,8 @@ end
 
 get '/' do
   begin
-    password = conjur_api.variable("inventory-db/password").value
-    "inventory-db password: #{password}"
+    password = conjur_api.variable("test-app-db/password").value
+    "test-app-db password: #{password}"
   rescue
     $stderr.puts $!
     $stderr.puts $!.backtrace.join("\n")

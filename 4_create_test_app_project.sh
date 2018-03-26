@@ -9,6 +9,9 @@ else
   echo "Creating '$TEST_APP_PROJECT_NAME' project."
   oc new-project $TEST_APP_PROJECT_NAME --description="For demonstration of Conjur container authentication and secrets retrieval."
 
+  # Must run as root to write cert keys to disk.
+  oc adm policy add-scc-to-user anyuid -z default
+  
   # Permissions
   oc policy add-role-to-user edit developer
 fi

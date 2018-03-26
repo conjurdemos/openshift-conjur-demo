@@ -4,6 +4,8 @@ set -eou pipefail
 . ./openshift-conjur-deploy/utils.sh
 . ./utils.sh
 
+set_project $CONJUR_PROJECT_NAME
+
 conjur_master=$(get_master_pod_name)
 
 # (re)install Conjur policy plugin

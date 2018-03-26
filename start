@@ -1,6 +1,8 @@
 #!/bin/bash
 set -eou pipefail
 
+export AUTHENTICATOR_SERVICE_ID=authn-k8s/openshift-test
+
 ./0_check_dependencies.sh
 
 ./stop
