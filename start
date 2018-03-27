@@ -13,3 +13,4 @@ set -eou pipefail
 ./6_store_conjur_api_key.sh
 ./7_build_and_push_containers.sh
 ./8_deploy_test_app.sh
+./9_retrieve_secret.sh
