@@ -10,4 +10,4 @@ subjects:
     namespace: {{ CONJUR_PROJECT_NAME }}
 roleRef:
   kind: ClusterRole
-  name: pod-get-list-exec-test
+  name: conjur-authenticator
