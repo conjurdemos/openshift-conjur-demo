@@ -15,10 +15,6 @@ else
   oc new-project $TEST_APP_PROJECT_NAME
 fi
 
-# Must run as root to write cert keys to disk.
-# TODO: replace this overprivileging with a service account + role + role binding
-oc adm policy add-scc-to-user anyuid -z default
-
 oc delete --ignore-not-found rolebinding test-app-conjur-authenticator-role-binding
 
 sed -e "s#{{ TEST_APP_PROJECT_NAME }}#$TEST_APP_PROJECT_NAME#g" ./manifests/test-app-conjur-authenticator-role-binding.yaml |
