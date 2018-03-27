@@ -30,3 +30,5 @@ export TEST_APP_PROJECT_NAME=test-app
 ## Usage
 
 Run the `./start` script to kick off the demo. It first loads Conjur policy and then deploys a test app container alongside a sidecar. The sidecar authenticates with Conjur and injects an access token into shared memory, which th test app then uses to retrieve a secret value from Conjur.
+
+Please note that these scripts currently overprivilege the `default` service account with the `anyuid` SCC to allow it to write files to disk. This privilege will become more restricted in future iterations of this project.
