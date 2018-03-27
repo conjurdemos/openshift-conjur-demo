@@ -3,7 +3,7 @@ set -eou pipefail
 
 . ./utils.sh
 
-oc project default
+set_project default
 
 if has_project $TEST_APP_PROJECT_NAME; then
   oc delete project $TEST_APP_PROJECT_NAME
@@ -24,11 +24,3 @@ if has_project $TEST_APP_PROJECT_NAME; then
 fi
 
 echo "Test app environment purged."
-
-if [ -d openshift-conjur-deploy ]; then
-  pushd openshift-conjur-deploy
-    ./stop
-  popd
-
-  rm -rf ./openshift-conjur-deploy
-fi

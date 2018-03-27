@@ -1,5 +1,5 @@
 - !policy
-  id: conjur/authn-k8s/openshift-test
+  id: conjur/authn-k8s/{{ SERVICE_ID }}
   body:
   - !webservice
     annotations:

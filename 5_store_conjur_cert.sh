@@ -1,7 +1,9 @@
 #!/bin/bash 
 set -eou pipefail
 
-. ./openshift-conjur-deploy/utils.sh
+. ./utils.sh
+
+announce "Storing Conjur cert for test app configuration."
 
 set_project $CONJUR_PROJECT_NAME
 
@@ -12,8 +14,11 @@ ssl_cert=$(oc exec $follower_pod_name -- cat /opt/conjur/etc/ssl/conjur.pem)
 
 set_project $TEST_APP_PROJECT_NAME
 
-echo "Storing non-secret conjur cert as configuration data"
+echo "Storing non-secret conjur cert as test app configuration data"
 
-# Write Conjur SSL cert in ConfigMap.
 oc delete --ignore-not-found=true configmap $TEST_APP_PROJECT_NAME
+
+# Store the Conjur cert in a ConfigMap.
 oc create configmap $TEST_APP_PROJECT_NAME --from-file=ssl-certificate=<(echo "$ssl_cert")
+
+echo "Conjur cert stored."

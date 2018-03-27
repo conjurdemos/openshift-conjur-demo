@@ -51,7 +51,7 @@ spec:
           - name: CONJUR_APPLIANCE_URL
             value: https://conjur-follower.{{ CONJUR_PROJECT_NAME }}.svc.cluster.local/api
           - name: CONJUR_AUTHN_URL
-            value: https://conjur-follower.{{ CONJUR_PROJECT_NAME }}.svc.cluster.local/api/authn-k8s/openshift-test
+            value: https://conjur-follower.{{ CONJUR_PROJECT_NAME }}.svc.cluster.local/api/authn-k8s/{{ SERVICE_ID }}
           - name: CONJUR_ACCOUNT
             value: {{ CONJUR_ACCOUNT }}
           - name: CONJUR_AUTHN_LOGIN

@@ -1,13 +1,10 @@
 #!/bin/bash
 set -eou pipefail
 
-export AUTHENTICATOR_SERVICE_ID=authn-k8s/openshift-test
-
 ./0_check_dependencies.sh
 
 ./stop
 
-./1_deploy_conjur.sh
 ./2_initialize_conjur.sh
 ./3_load_conjur_policies.sh
 ./4_create_test_app_project.sh

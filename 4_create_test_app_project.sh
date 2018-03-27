@@ -1,13 +1,15 @@
 #!/bin/bash 
 set -eou pipefail
 
-. ./openshift-conjur-deploy/utils.sh
+. ./utils.sh
+
+announce "Creating Test App project."
 
 if has_project "$TEST_APP_PROJECT_NAME"; then
   echo "Project '$TEST_APP_PROJECT_NAME' exists, not going to create it."
 else
   echo "Creating '$TEST_APP_PROJECT_NAME' project."
-  oc new-project $TEST_APP_PROJECT_NAME --description="For demonstration of Conjur container authentication and secrets retrieval."
+  oc new-project $TEST_APP_PROJECT_NAME
 
   # Must run as root to write cert keys to disk.
   oc adm policy add-scc-to-user anyuid -z default
