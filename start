@@ -5,8 +5,9 @@ set -eou pipefail
 
 ./stop
 
-./2_initialize_conjur.sh
-./3_load_conjur_policies.sh
+./1_initialize_conjur.sh
+./2_load_conjur_policies.sh
+./3_init_conjur_cert_authority.sh
 ./4_create_test_app_project.sh
 ./5_store_conjur_cert.sh
 ./6_store_conjur_api_key.sh
