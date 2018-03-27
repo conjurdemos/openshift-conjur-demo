@@ -28,3 +28,5 @@ password=$(openssl rand -hex 12)
 
 echo "Setting DB password: $password"
 oc exec $conjur_master -- conjur variable values add test-app-db/password $password
+
+oc exec $conjur_master -- conjur-plugin-service authn-k8s rake ca:initialize["conjur/authn-k8s/openshift-test"]
