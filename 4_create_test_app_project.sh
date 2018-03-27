@@ -5,8 +5,11 @@ set -eou pipefail
 
 announce "Creating Test App project."
 
+set_project default
+
 if has_project "$TEST_APP_PROJECT_NAME"; then
   echo "Project '$TEST_APP_PROJECT_NAME' exists, not going to create it."
+  set_project $TEST_APP_PROJECT_NAME
 else
   echo "Creating '$TEST_APP_PROJECT_NAME' project."
   oc new-project $TEST_APP_PROJECT_NAME
@@ -15,3 +18,9 @@ fi
 # Must run as root to write cert keys to disk.
 # TODO: replace this overprivileging with a service account + role + role binding
 oc adm policy add-scc-to-user anyuid -z default
+
+oc delete --ignore-not-found rolebinding test-app-conjur-authenticator-role-binding
+
+sed -e "s#{{ TEST_APP_PROJECT_NAME }}#$TEST_APP_PROJECT_NAME#g" ./manifests/test-app-conjur-authenticator-role-binding.yaml |
+  sed -e "s#{{ CONJUR_PROJECT_NAME }}#$CONJUR_PROJECT_NAME#g" |
+  oc create -f -
