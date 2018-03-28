@@ -29,6 +29,6 @@ sed -e "s#{{ TEST_APP_DOCKER_IMAGE }}#$test_app_docker_image#g" ./test_app/test_
   sed -e "s#{{ CONFIG_MAP_NAME }}#$TEST_APP_PROJECT_NAME#g" |
   oc create -f -
 
-sleep 10
+sleep 20
 
 echo "Test app deployed."
