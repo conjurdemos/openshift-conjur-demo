@@ -55,7 +55,7 @@ spec:
           - name: CONJUR_ACCOUNT
             value: {{ CONJUR_ACCOUNT }}
           - name: CONJUR_AUTHN_LOGIN
-            value: test-app/*/*
+            value: {{ CONFIG_MAP_NAME }}/*/*
           - name: CONJUR_SSL_CERTIFICATE
             valueFrom:
               configMapKeyRef:
