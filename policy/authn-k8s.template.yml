@@ -43,6 +43,7 @@
         id: {{ TEST_APP_PROJECT_NAME }}/*/*
         annotations:
           kubernetes/authentication-container-name: authenticator
+          openshift: "true"
 
     - !grant
       role: !layer /test-app

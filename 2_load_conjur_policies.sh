@@ -32,3 +32,5 @@ password=$(openssl rand -hex 12)
 
 echo "Setting DB password: $password"
 oc exec $conjur_master -- conjur variable values add test-app-db/password $password
+
+oc exec $conjur_master -- conjur authn logout
