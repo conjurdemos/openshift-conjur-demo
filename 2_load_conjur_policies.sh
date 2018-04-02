@@ -17,6 +17,8 @@ oc exec $conjur_master -- conjur plugin install policy
 pushd policy
   sed -e "s#{{ SERVICE_ID }}#$AUTHENTICATOR_SERVICE_ID#g" ./authn-k8s.template.yml |
     sed -e "s#{{ TEST_APP_PROJECT_NAME }}#$TEST_APP_PROJECT_NAME#g" > ./authn-k8s.yml
+
+  sed -e "s#{{ TEST_APP_PROJECT_NAME }}#$TEST_APP_PROJECT_NAME#g" ./apps.template.yml > ./apps.yml
 popd
 
 oc rsync ./policy $conjur_master:/
