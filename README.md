@@ -1,32 +1,46 @@
 # openshift-conjur-demo
 
-This repo demonstrates secret retrieval from a Conjur cluster using the [Kubernetes authenticator](https://github.com/conjurinc/authn-k8s).
+This repo demonstrates an app retrieving secrets from a Conjur cluster using the
+[Kubernetes authenticator](https://github.com/conjurinc/authn-k8s). The numbered
+scripts perform the same setps that a user will have to go through when setting
+up their own applications.
 
+# Setup
 
-Conjur OpenShift integration by deploying Conjur using the scripts in the [openshift-conjur-deploy repo](https://github.com/conjurinc/openshift-conjur-deploy), loading some example Conjur policy, and deploying a simple test app that retrieves a database password and prints the password to its logs.
+### Deploying Conjur
 
-## Requirements
+Before running this demo you will need to [set up a Conjur cluster](https://github.com/conjurinc/openshift-conjur-deploy)
+in your OpenShift environment. It is recommended that you **set up a separate
+Conjur cluster** purely for the purpose of running this demo as it loads Conjur
+policy that you would not want to be present in your production environment.
 
-Before running this demo you will need to set up a Conjur cluster in your OpenShift environment. It is recommended that you **set up a separate Conjur cluster** purely for the purpose of running this demo as it loads Conjur policy that you would not want to be present in your production environment.
+### Script Configuration
 
-## Configuration
-
-You will need to set the following environment variables to match the values used when setting up your Conjur deployment:
-
-```
-export CONJUR_PROJECT_NAME=conjur-demo
-export DOCKER_REGISTRY_PATH=docker-registry-[registry pod namespace].apps.[openshift env domain]
-export CONJUR_ACCOUNT=<my_account_name>
-export CONJUR_ADMIN_PASSWORD=<my_admin_password>
-export AUTHENTICATOR_SERVICE_ID=gke/prod
-```
-
-You will also need to provide a name for the test-app OpenShift project:
+You will need to provide a name for the OpenShift project in which your test app
+will be deployed:
 
 ```
 export TEST_APP_PROJECT_NAME=test-app
 ```
 
-## Usage
+You will also need to set several environment variables to match the values used
+when configuring your Conjur deployment. Note that if you may already have these 
+variables set if you're using the same shell to run the demo:
 
-Run the `./start` script to kick off the demo. It first loads Conjur policy and then deploys a test app container alongside a sidecar. The sidecar authenticates with Conjur and injects an access token into shared memory, which th test app then uses to retrieve a secret value from Conjur.
+```
+export CONJUR_PROJECT_NAME=<conjur-project-name>
+export DOCKER_REGISTRY_PATH=docker-registry-<registry-namespace>.<routing-domain>
+export CONJUR_ACCOUNT=<account-name>
+export CONJUR_ADMIN_PASSWORD=<admin-password>
+export AUTHENTICATOR_SERVICE_ID=<service-id>
+```
+
+# Usage
+
+Run `./start` to execute the numbered scripts, which will step through the
+process of configuring Conjur and deploying a test app. The test app uses the
+Conjur Ruby API, configured with the access token provided by the authenticator
+sidecar, to retrieve a secret value from Conjur.
+
+You can run the `./rotate` script to rotate the secret value and then run the
+final numbered script again to retrieve and print the new value.
