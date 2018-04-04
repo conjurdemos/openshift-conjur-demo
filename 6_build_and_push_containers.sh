@@ -7,7 +7,7 @@ announce "Building and pushing test app image."
 
 docker login -u _ -p $(oc whoami -t) $DOCKER_REGISTRY_PATH
 
-pushd test_app/build
+pushd test_app
   ./build.sh
 popd
   

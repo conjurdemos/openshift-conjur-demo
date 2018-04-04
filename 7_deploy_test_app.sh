@@ -21,7 +21,7 @@ sleep 5
 
 test_app_docker_image=$DOCKER_REGISTRY_PATH/$TEST_APP_PROJECT_NAME/test-app:$CONJUR_PROJECT_NAME
 
-sed -e "s#{{ TEST_APP_DOCKER_IMAGE }}#$test_app_docker_image#g" ./test_app/test_app.yaml |
+sed -e "s#{{ TEST_APP_DOCKER_IMAGE }}#$test_app_docker_image#g" ./manifests/test_app.yaml |
   sed -e "s#{{ CONJUR_ACCOUNT }}#$CONJUR_ACCOUNT#g" |
   sed -e "s#{{ CONJUR_PROJECT_NAME }}#$CONJUR_PROJECT_NAME#g" |
   sed -e "s#{{ TEST_APP_PROJECT_NAME }}#$TEST_APP_PROJECT_NAME#g" |
