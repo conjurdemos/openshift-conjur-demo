@@ -32,7 +32,8 @@ echo "Conjur policy loaded."
 
 password=$(openssl rand -hex 12)
 
-echo "Setting DB password: $password"
 oc exec $conjur_master -- conjur variable values add test-app-db/password $password
+
+announce "Added DB password value: $password"
 
 oc exec $conjur_master -- conjur authn logout
