@@ -1,7 +1,6 @@
 FROM ruby:2.3
 
-RUN gem install -N activesupport --version 4.2.7.1
-RUN gem install -N conjur-api:"< 5.0" conjur-cli:"< 6.0" sinatra
+RUN gem install -N sinatra
 
 COPY summon usr/local/bin/summon
 
