@@ -37,10 +37,14 @@ export AUTHENTICATOR_SERVICE_ID=<service-id>
 
 # Usage
 
-Run `./start` to execute the numbered scripts, which will step through the
-process of configuring Conjur and deploying a test app. The test app uses the
-Conjur Ruby API, configured with the access token provided by the authenticator
-sidecar, to retrieve a secret value from Conjur.
+Run `./start` to execute the numbered scripts, which will start by configuring
+Conjur and storing a secret value in a variable declared in Conjur policy. They
+will then deploy two test apps that retrieve this secret in different ways.
 
-You can run the `./rotate` script to rotate the secret value and then run the
-final numbered script again to retrieve and print the new value.
+Both test apps expose a single endpoint that can be curled to retrieve the
+secret value. The API test app uses the [Conjur Ruby API](https://github.com/cyberark/conjur-api-ruby)
+for secret retrieval and the Summon test app uses the open-source tool [Summon](https://cyberark.github.io/summon/).
+The final numbered script makes curl requests to both of these test apps and displays the output.
+
+You can also run the `./rotate` script to rotate the secret value and then run
+the final numbered script again to retrieve and print the new value.
