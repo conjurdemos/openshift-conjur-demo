@@ -2,7 +2,6 @@
 
 require 'sinatra'
 require 'conjur-api'
-require 'cgi'
 require 'json'
 
 enable :logging
@@ -27,7 +26,7 @@ end
 get '/' do
   begin
     password = conjur_api.variable("test-app-db/password").value
-    "test-app-db password: #{password}"
+    "test-app/password: #{password}"
   rescue
     $stderr.puts $!
     $stderr.puts $!.backtrace.join("\n")

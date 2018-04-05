@@ -19,6 +19,8 @@ spec:
         imagePullPolicy: Always
         name: test-app
         env:
+          - name: CONJUR_MAJOR_VERSION
+            value: '4'
           - name: CONJUR_APPLIANCE_URL
             value: https://conjur-follower.{{ CONJUR_PROJECT_NAME }}.svc.cluster.local/api
           - name: CONJUR_ACCOUNT
@@ -29,7 +31,7 @@ spec:
                 name: {{ CONFIG_MAP_NAME }}
                 key: ssl-certificate
           - name: CONJUR_AUTHN_TOKEN_FILE
-            value: /run/conjur/conjur-access-token
+            value: /run/conjur/access-token
         volumeMounts:
           - mountPath: /run/conjur
             name: conjur-access-token

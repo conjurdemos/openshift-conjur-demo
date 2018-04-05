@@ -16,4 +16,3 @@ COPY secrets.yml secrets.yml
 env PORT 80
 
 CMD [ "summon", "--provider", "summon-conjur", "ruby", "test_app.rb" ]
-#CMD [ "sleep", "infinity" ]
