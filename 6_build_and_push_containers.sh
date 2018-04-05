@@ -12,3 +12,9 @@ pushd test_app
 popd
   
 docker_tag_and_push $TEST_APP_PROJECT_NAME test-app
+
+pushd test_app_summon
+  ./build.sh
+popd
+  
+docker_tag_and_push $TEST_APP_PROJECT_NAME test-app-summon
