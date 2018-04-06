@@ -6,7 +6,7 @@ enable :logging
 
 get '/' do
   begin
-    "test-app-db/password: #{ENV["DB_PASSWORD"]}"
+    ENV["DB_PASSWORD"]
   rescue
     $stderr.puts $!
     $stderr.puts $!.backtrace.join("\n")
