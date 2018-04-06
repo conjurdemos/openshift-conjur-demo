@@ -10,6 +10,6 @@ set -eou pipefail
 ./3_init_conjur_cert_authority.sh
 ./4_create_test_app_project.sh
 ./5_store_conjur_cert.sh
-./6_build_and_push_containers.sh
-./7_deploy_test_app.sh
+./6_build_and_push_images.sh
+./7_deploy_test_apps.sh
 ./8_retrieve_secret.sh
