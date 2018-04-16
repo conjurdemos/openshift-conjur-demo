@@ -1,9 +1,8 @@
 # openshift-conjur-demo
 
-This repo demonstrates an app retrieving secrets from a Conjur cluster using the
-[Kubernetes authenticator](https://github.com/conjurinc/authn-k8s). The numbered
-scripts perform the same setps that a user will have to go through when setting
-up their own applications.
+This repo demonstrates an app retrieving secrets from a Conjur cluster running
+in OpenShift. The numbered scripts perform the same steps that a user has to go
+through when setting up their own applications.
 
 # Setup
 
