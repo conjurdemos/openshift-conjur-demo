@@ -46,7 +46,7 @@
           openshift: "true"
 
     - !grant
-      role: !layer /{{ TEST_APP_PROJECT_NAME }}
+      role: !layer /test-app
       members:
       - !host {{ TEST_APP_PROJECT_NAME }}/*/*
 
