@@ -4,6 +4,10 @@ This repo demonstrates an app retrieving secrets from a Conjur cluster running
 in OpenShift. The numbered scripts perform the same steps that a user has to go
 through when setting up their own applications.
 
+**Deprecation Notice**
+
+This project has been deprecated in favor of https://github.com/conjurdemos/kubernetes-conjur-demo. Use that project for deploying this demo application to both Kubernetes and OpenShift.
+
 # Setup
 
 ### Deploying Conjur
